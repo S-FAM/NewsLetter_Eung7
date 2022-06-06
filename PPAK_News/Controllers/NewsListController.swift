@@ -38,6 +38,7 @@ class NewsListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        // Git Test
     }
     
     // MARK: - Helpers
