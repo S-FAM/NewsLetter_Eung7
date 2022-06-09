@@ -23,7 +23,9 @@ class NewsService {
             .responseDecodable(of: NewsResponseModel.self) { response in
                 switch response.result {
                 case .success(let responseModel):
-                    completion(responseModel.articles, page + 1)
+                    DispatchQueue.main.async {
+                        completion(responseModel.articles, page + 1)
+                    }
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

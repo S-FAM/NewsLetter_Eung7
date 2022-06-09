@@ -11,8 +11,11 @@ import SnapKit
 class NewsListController: UIViewController {
     // MARK: - States
     var isLoading: Bool = false
+    var currentPage: Int = 1
     
     // MARK: - Properties
+    var viewModel = NewsListViewModel()
+
     lazy var listView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsListCell.self, forCellReuseIdentifier: NewsListCell.identifier)
@@ -38,7 +41,6 @@ class NewsListController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        // Git Test
     }
     
     // MARK: - Helpers
@@ -58,15 +60,24 @@ class NewsListController: UIViewController {
     // MARK: - Selectors
 }
 
+
+
 // MARK: - TableViewDataSource
 extension NewsListController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return viewModel.numberOfRowsInSection()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewsListCell.identifier,
-                                                       for: indexPath) as? NewsListCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: NewsListCell.identifier,
+            for: indexPath
+        ) as? NewsListCell else { return UITableViewCell() }
+        let news = viewModel.getNewsFromIndex(indexPath.row)
+        let vm = NewsTableViewModel(news: news)
+        cell.viewModel = vm
+        cell.configureData()
+        
         return cell
     }
 }
@@ -78,4 +89,13 @@ extension NewsListController: UITableViewDelegate {
 
 // MARK: - SearchBarDelegate
 extension NewsListController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let query = searchBar.searchTextField.text else { return }
+        NewsService.fetchNews(query, page: 1) { [weak self] news, nextPage in
+            self?.viewModel.news = news
+            self?.currentPage = nextPage
+            self?.listView.reloadData()
+        }
+        searchBar.endEditing(true)
+    }
 }
