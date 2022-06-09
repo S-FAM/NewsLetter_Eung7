@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NewsListViewModel {
+class NewsListViewModel {
     var news: [News] = []
 }
 
@@ -19,10 +19,14 @@ extension NewsListViewModel {
     func getNewsFromIndex(_ index: Int) -> News {
         return news[index]
     }
+    
+    func appendNews(_ news: [News]) {
+        self.news.append(contentsOf: news)
+    }
 }
 
 struct NewsTableViewModel {
-    var news: News 
+    let news: News 
 }
 
 extension NewsTableViewModel {

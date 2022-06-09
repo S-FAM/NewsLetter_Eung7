@@ -16,26 +16,25 @@ class NewsListCell: UITableViewCell {
     
     let thumbnail: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
+        iv.layer.masksToBounds = true
+        iv.kf.indicatorType = .activity
         
         return iv
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        
-        return label
-    }()
-    
-    let descritpionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "description"
+        label.font = .systemFont(ofSize: 20.0, weight: .bold)
+        label.numberOfLines = 3
         
         return label
     }()
     
     let dateLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 14.0, weight: .ultraLight)
+        // TODO: [] DateFormatter 구현
         
         return label
     }()
@@ -52,7 +51,7 @@ class NewsListCell: UITableViewCell {
     
     // MARK: - Helpers
     func configureUI() {
-        [ thumbnail, titleLabel, descritpionLabel, dateLabel ]
+        [ thumbnail, titleLabel, dateLabel ]
             .forEach { contentView.addSubview($0) }
         
         thumbnail.snp.makeConstraints { make in
@@ -61,19 +60,13 @@ class NewsListCell: UITableViewCell {
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(thumbnail.snp.top)
+            make.top.equalToSuperview().inset(4)
             make.leading.equalTo(thumbnail.snp.trailing).offset(4)
             make.trailing.equalToSuperview().inset(8)
         }
         
-        descritpionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
-            make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalToSuperview().inset(8)
-        }
-        
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(descritpionLabel.snp.bottom).offset(4)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.leading.equalTo(titleLabel.snp.leading)
             make.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(8)
@@ -83,8 +76,7 @@ class NewsListCell: UITableViewCell {
     func configureData() {
         guard let viewModel = viewModel else { return }
         titleLabel.text = viewModel.title
-        descritpionLabel.text = viewModel.description
         dateLabel.text = viewModel.date
-        thumbnail.kf.setImage(with: URL(string: viewModel.thumbnail))
+        thumbnail.kf.setImage(with: URL(string: viewModel.thumbnail), options: [.transition(.fade(0.3))])
     }
 }

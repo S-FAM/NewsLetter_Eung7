@@ -12,9 +12,10 @@ class NewsListController: UIViewController {
     // MARK: - States
     var isLoading: Bool = false
     var currentPage: Int = 1
+    var currentQuery: String = ""
     
     // MARK: - Properties
-    var viewModel = NewsListViewModel()
+    let viewModel = NewsListViewModel()
 
     lazy var listView: UITableView = {
         let tableView = UITableView()
@@ -57,10 +58,25 @@ class NewsListController: UIViewController {
         }
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if listView.contentOffset.y > (listView.contentSize.height - listView.bounds.size.height) {
+            if !isLoading {
+                isLoading = true
+                NewsService.fetchNews(currentQuery, page: currentPage) { [weak self] news, nextPage in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self?.viewModel.appendNews(news)
+                        self?.currentPage = nextPage
+                        self?.isLoading = false
+                        self?.listView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Selectors
+
 }
-
-
 
 // MARK: - TableViewDataSource
 extension NewsListController: UITableViewDataSource {
@@ -84,16 +100,20 @@ extension NewsListController: UITableViewDataSource {
 
 // MARK: - TableViewDelegate
 extension NewsListController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: [] Cell 클릭 시 WebView 표시
+    }
 }
 
 // MARK: - SearchBarDelegate
 extension NewsListController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        isLoading = false
         guard let query = searchBar.searchTextField.text else { return }
         NewsService.fetchNews(query, page: 1) { [weak self] news, nextPage in
             self?.viewModel.news = news
             self?.currentPage = nextPage
+            self?.currentQuery = query
             self?.listView.reloadData()
         }
         searchBar.endEditing(true)
