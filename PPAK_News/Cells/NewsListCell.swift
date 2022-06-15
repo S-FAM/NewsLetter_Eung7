@@ -77,7 +77,7 @@ class NewsListCell: UITableViewCell {
     func configureData() {
         guard let viewModel = viewModel else { return }
         titleLabel.text = viewModel.title
-        dateLabel.text = viewModel.date
+        dateLabel.text = viewModel.date.dateToString()
         thumbnail.kf.setImage(with: URL(string: viewModel.thumbnail), options: [.transition(.fade(0.3))])
     }
 }
