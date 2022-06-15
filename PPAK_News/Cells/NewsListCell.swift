@@ -10,8 +10,10 @@ import SnapKit
 import Kingfisher
 
 class NewsListCell: UITableViewCell {
-    // MARK: - Properties
+    // MARK: - States
     var viewModel: NewsTableViewModel?
+    
+    // MARK: - Properties
     static let identifier = "NewsListCell"
     
     let thumbnail: UIImageView = {
@@ -56,7 +58,7 @@ class NewsListCell: UITableViewCell {
         
         thumbnail.snp.makeConstraints { make in
             make.top.bottom.leading.equalToSuperview().inset(4)
-            make.width.equalTo(100)
+            make.width.equalTo(92)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -66,7 +68,6 @@ class NewsListCell: UITableViewCell {
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.leading.equalTo(titleLabel.snp.leading)
             make.trailing.equalToSuperview().inset(8)
             make.bottom.equalToSuperview().inset(8)
@@ -80,3 +81,4 @@ class NewsListCell: UITableViewCell {
         thumbnail.kf.setImage(with: URL(string: viewModel.thumbnail), options: [.transition(.fade(0.3))])
     }
 }
+
