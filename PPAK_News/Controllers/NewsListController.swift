@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import WebKit
 
 class NewsListController: UIViewController {
     // MARK: - States
@@ -16,7 +17,7 @@ class NewsListController: UIViewController {
     
     // MARK: - Properties
     let viewModel = NewsListViewModel()
-
+    
     lazy var listView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsListCell.self, forCellReuseIdentifier: NewsListCell.identifier)
@@ -32,7 +33,8 @@ class NewsListController: UIViewController {
         searchBar.placeholder = "What's your interests?"
         searchBar.returnKeyType = .search
         searchBar.tintColor = .systemBackground
-        searchBar.searchTextField.textColor = .systemBackground
+        searchBar.searchTextField.backgroundColor = .systemBackground
+        searchBar.searchTextField.textColor = .label
         searchBar.delegate = self
         
         return searchBar
@@ -44,15 +46,21 @@ class NewsListController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     // MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "PPAK News"
-        navigationController?.view.backgroundColor = .systemTeal
+        navigationController?.view.backgroundColor = .systemPink
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: querySearchBar)
         
         view.addSubview(listView)
+        
         listView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -73,9 +81,6 @@ class NewsListController: UIViewController {
             }
         }
     }
-    
-    // MARK: - Selectors
-
 }
 
 // MARK: - TableViewDataSource
@@ -101,7 +106,12 @@ extension NewsListController: UITableViewDataSource {
 // MARK: - TableViewDelegate
 extension NewsListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: [] Cell 클릭 시 WebView 표시
+        let newsURL = viewModel.getNewsFromIndex(indexPath.row).url
+        if let url = URL(string: newsURL) {
+            let request = URLRequest(url: url)
+            let webVC = WebViewController(request: request)
+            navigationController?.pushViewController(webVC, animated: true)
+        }
     }
 }
 
