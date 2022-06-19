@@ -13,6 +13,15 @@ class WebViewController: UIViewController {
     // MARK: - States
     let urlRequest: URLRequest
     
+    lazy var bookmarkButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "bookmark"), for: .normal)
+        button.setImage(UIImage(systemName: "bookmark.fill"), for: .selected)
+        button.addTarget(self, action: #selector(didTapBookmarkButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
     // MARK: - Properties
     let webView = WKWebView()
     
@@ -25,17 +34,24 @@ class WebViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureURL(urlRequest)
     }
     
+    // MARK: - Selectors
+    @objc func didTapBookmarkButton() {
+        
+    }
+    
     // MARK: - Helpers
     func configureUI() {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.tintColor = .white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: bookmarkButton)
+        
         view.backgroundColor = .systemPink
         view.addSubview(webView)
         

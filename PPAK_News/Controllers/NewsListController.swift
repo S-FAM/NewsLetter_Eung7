@@ -11,7 +11,7 @@ import WebKit
 
 class NewsListController: UIViewController {
     // MARK: - States
-    var isLoading: Bool = false
+    var isLoading: Bool = true
     var currentPage: Int = 1
     var currentQuery: String = ""
     
@@ -117,6 +117,11 @@ extension NewsListController: UITableViewDelegate {
 
 // MARK: - SearchBarDelegate
 extension NewsListController: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        isLoading = false
+        return true
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         isLoading = false
         guard let query = searchBar.searchTextField.text else { return }

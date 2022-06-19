@@ -21,6 +21,9 @@
 		E566313C284E2067009E9DC1 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E566313B284E2067009E9DC1 /* Kingfisher */; };
 		E566313F284E226D009E9DC1 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = E566313E284E226D009E9DC1 /* Alamofire */; };
 		E5AA1A8D2851A98000CC5431 /* NewsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AA1A8C2851A98000CC5431 /* NewsListViewModel.swift */; };
+		E5B2A02A285ED629002B8FB8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B2A029285ED629002B8FB8 /* TabBarController.swift */; };
+		E5B2A02C285ED64E002B8FB8 /* BookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B2A02B285ED64E002B8FB8 /* BookmarkViewController.swift */; };
+		E5B2A02E285EDF08002B8FB8 /* BookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B2A02D285EDF08002B8FB8 /* BookmarkViewModel.swift */; };
 		E5D187392859813A0092C4CA /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D187382859813A0092C4CA /* WebViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,9 @@
 		E5663132284E192F009E9DC1 /* Extensions+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+.swift"; sourceTree = "<group>"; };
 		E5663138284E1F58009E9DC1 /* NewsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListCell.swift; sourceTree = "<group>"; };
 		E5AA1A8C2851A98000CC5431 /* NewsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsListViewModel.swift; sourceTree = "<group>"; };
+		E5B2A029285ED629002B8FB8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		E5B2A02B285ED64E002B8FB8 /* BookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewController.swift; sourceTree = "<group>"; };
+		E5B2A02D285EDF08002B8FB8 /* BookmarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkViewModel.swift; sourceTree = "<group>"; };
 		E5D187382859813A0092C4CA /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +116,8 @@
 			children = (
 				E5663115284E12E5009E9DC1 /* NewsListController.swift */,
 				E5D187382859813A0092C4CA /* WebViewController.swift */,
+				E5B2A02B285ED64E002B8FB8 /* BookmarkViewController.swift */,
+				E5B2A029285ED629002B8FB8 /* TabBarController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -134,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				E5AA1A8C2851A98000CC5431 /* NewsListViewModel.swift */,
+				E5B2A02D285EDF08002B8FB8 /* BookmarkViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -220,9 +229,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5B2A02E285EDF08002B8FB8 /* BookmarkViewModel.swift in Sources */,
+				E5B2A02C285ED64E002B8FB8 /* BookmarkViewController.swift in Sources */,
 				E5663116284E12E5009E9DC1 /* NewsListController.swift in Sources */,
 				E5D187392859813A0092C4CA /* WebViewController.swift in Sources */,
 				E5663129284E147E009E9DC1 /* NewsService.swift in Sources */,
+				E5B2A02A285ED629002B8FB8 /* TabBarController.swift in Sources */,
 				E5663112284E12E5009E9DC1 /* AppDelegate.swift in Sources */,
 				E5663139284E1F58009E9DC1 /* NewsListCell.swift in Sources */,
 				E5663133284E192F009E9DC1 /* Extensions+.swift in Sources */,
