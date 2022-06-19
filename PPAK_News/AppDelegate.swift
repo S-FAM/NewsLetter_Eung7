@@ -16,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.systemBackground]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        MyNewsCenter.shared.loadNews()
+        
         return true
     }
     

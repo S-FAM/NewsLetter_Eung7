@@ -43,7 +43,12 @@ class WebViewController: UIViewController {
     
     // MARK: - Selectors
     @objc func didTapBookmarkButton() {
-        
+        bookmarkButton.isSelected = !bookmarkButton.isSelected
+        if bookmarkButton.isSelected {
+            
+        } else {
+            
+        }
     }
     
     // MARK: - Helpers

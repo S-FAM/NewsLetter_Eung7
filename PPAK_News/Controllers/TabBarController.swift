@@ -21,6 +21,7 @@ class TabBarController: UITabBarController {
     // MARK: - Helpers
     private func configureUI() {
         tabBar.tintColor = .white
+        tabBar.barTintColor = .systemPink
         tabBar.unselectedItemTintColor = .white
         tabBar.backgroundColor = .systemPink
         
