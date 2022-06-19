@@ -8,31 +8,44 @@
 import Foundation
 
 class NewsListViewModel {
-    var news: [News] = []
+    var news: [MyNews] = []
 }
 
 extension NewsListViewModel {
+    
+    
     func numberOfRowsInSection() -> Int {
         return news.count
     }
     
-    func getNewsFromIndex(_ index: Int) -> News {
+    func getNewsFromIndex(_ index: Int) -> MyNews {
         return news[index]
     }
     
     func appendNews(_ news: [News]) {
-        self.news.append(contentsOf: news)
+        _ = news.map {
+            let myNews = MyNews(news: $0, bookmark: false)
+            self.news.append(myNews)
+        }
+    }
+    
+    func initializeNews(_ news: [News]) {
+        self.news = []
+        _ = news.map {
+            let myNews = MyNews(news: $0, bookmark: false)
+            self.news.append(myNews)
+        }
     }
 }
 
 struct NewsTableViewModel {
-    let news: News 
+    let news: MyNews
 }
 
 extension NewsTableViewModel {
-    var title: String { return news.title }
-    var description: String { return news.description }
-    var date: String { return news.publishedAt }
-    var thumbnail: String { return news.urlToImage }
+    var title: String { return news.news.title }
+    var description: String { return news.news.description }
+    var date: String { return news.news.publishedAt }
+    var thumbnail: String { return news.news.urlToImage }
 }
 
