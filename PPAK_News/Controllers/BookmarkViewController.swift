@@ -10,6 +10,8 @@ import SnapKit
 
 class BookmarkViewController: UIViewController {
     // MARK: - Properties
+    let center = BookmarkCenter.shared
+    
     lazy var listView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsListCell.self, forCellReuseIdentifier: NewsListCell.identifier)
@@ -26,20 +28,33 @@ class BookmarkViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listView.reloadData()
+    }
+    
     // MARK: - Helpers
     private func configureUI() {
         view.backgroundColor = .white
-        
+        listView.reloadData()
+
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.barTintColor = .white
         navigationItem.title = "Bookmark"
+        
+        view.addSubview(listView)
+        
+        listView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }
 
 // MARK: - TableViewDataSource
 extension BookmarkViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return center.BookmarkNews.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -47,6 +62,10 @@ extension BookmarkViewController: UITableViewDataSource {
             withIdentifier: NewsListCell.identifier,
             for: indexPath
         ) as? NewsListCell else { return UITableViewCell() }
+        let news = center.BookmarkNews[indexPath.row]
+        let vm = NewsTableViewModel(news: news)
+        cell.viewModel = vm
+        cell.configureData()
         
         return cell
     }
@@ -55,5 +74,12 @@ extension BookmarkViewController: UITableViewDataSource {
 // MARK: - TableViewDelegate
 extension BookmarkViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let news = center.BookmarkNews[indexPath.row]
+        let newsURL = news.news.url
+        if let url = URL(string: newsURL) {
+            let request = URLRequest(url: url)
+            let webVC = WebViewController(request: request, news: news)
+            navigationController?.pushViewController(webVC, animated: true)
+        }
     }
 }

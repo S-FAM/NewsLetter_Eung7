@@ -67,6 +67,7 @@ class NewsListController: UIViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        querySearchBar.resignFirstResponder()
         if listView.contentOffset.y > (listView.contentSize.height - listView.bounds.size.height) {
             if !isLoading {
                 isLoading = true
@@ -106,10 +107,11 @@ extension NewsListController: UITableViewDataSource {
 // MARK: - TableViewDelegate
 extension NewsListController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newsURL = viewModel.getNewsFromIndex(indexPath.row).url
+        let newsURL = viewModel.getNewsFromIndex(indexPath.row).news.url
+        let news = viewModel.getNewsFromIndex(indexPath.row)
         if let url = URL(string: newsURL) {
             let request = URLRequest(url: url)
-            let webVC = WebViewController(request: request)
+            let webVC = WebViewController(request: request, news: news)
             navigationController?.pushViewController(webVC, animated: true)
         }
     }
@@ -126,7 +128,7 @@ extension NewsListController: UISearchBarDelegate {
         isLoading = false
         guard let query = searchBar.searchTextField.text else { return }
         NewsService.fetchNews(query, page: 1) { [weak self] news, nextPage in
-            self?.viewModel.news = news
+            self?.viewModel.initializeNews(news)
             self?.currentPage = nextPage
             self?.currentQuery = query
             self?.listView.reloadData()

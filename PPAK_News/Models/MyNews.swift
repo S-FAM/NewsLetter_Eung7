@@ -9,5 +9,5 @@ import Foundation
 
 struct MyNews: Codable {
     let news: News
-    let bookmark: Bool
+    var bookmark: Bool
 }

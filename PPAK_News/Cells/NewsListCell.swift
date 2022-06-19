@@ -36,7 +36,6 @@ class NewsListCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14.0, weight: .ultraLight)
-        // TODO: [] DateFormatter 구현
         
         return label
     }()
@@ -75,10 +74,11 @@ class NewsListCell: UITableViewCell {
     }
     
     func configureData() {
+        let process = ResizingImageProcessor(referenceSize: CGSize(width: 92, height: 92))
         guard let viewModel = viewModel else { return }
         titleLabel.text = viewModel.title
         dateLabel.text = viewModel.date.dateToString()
-        thumbnail.kf.setImage(with: URL(string: viewModel.thumbnail), options: [.transition(.fade(0.3))])
+        thumbnail.kf.setImage(with: URL(string: viewModel.thumbnail), options: [.transition(.fade(0.3)), .processor(process)])
     }
 }
 
